@@ -8,7 +8,7 @@ class Student(models.Model):
     username = models.CharField(max_length=20)
     email= models.EmailField()
     nationality = models.CharField(max_length=20)
-    age = models.models.PositiveSmallIntegerField()
+    age = models.PositiveSmallIntegerField()
     Student_id = models.PositiveSmallIntegerField()
     Gender = models.CharField(max_length=20)
     Student_class = models.CharField(max_length=20)
