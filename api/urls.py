@@ -1,17 +1,17 @@
-from django.urls import path 
-from .views  import StudentListView
-from .views  import ClassperiodListView
-from .views  import TeacherListView
-from .views  import ClassesListView
-from .views  import CourseListView 
+from django.urls import path
 from django.contrib import admin
-
+from .views import StudentListView, ClassperiodListView, CourseListView, ClassesListView, TeacherListView, StudentDetailView, ClassperiodDetailView, ClassesDetailView, CourseDetailView,TeacherDetailView
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('students/', StudentListView.as_view(), name = 'Student_list_view'),
-    path('classperiod/', ClassperiodListView.as_view(), name = 'classperiod_list_view'),
-    path('course/', CourseListView.as_view(), name = 'course_list_view'),
-    path('classes/', ClassesListView.as_view(), name = 'classes_list_view'),
-    path('teacher/', TeacherListView.as_view(), name = 'teacher_list_view')
+    path('admin/', admin.site.urls), 
+    path('students/', StudentListView.as_view(), name='student_list_view'),
+    path('classperiods/', ClassperiodListView.as_view(), name='classperiod_list_view'),  
+    path('courses/', CourseListView.as_view(), name='course_list_view'),  
+    path('classes/', ClassesListView.as_view(), name='classes_list_view'),
+    path('teachers/', TeacherListView.as_view(), name='teacher_list_view'),  
+    path('students/<int:id>/', StudentDetailView.as_view(), name='student_detail_view'),  
+    path('classperiod/<int:id>/', ClassperiodDetailView.as_view(), name='classperiod_detail_view'), 
+    path('classes/<int:id>/', ClassesDetailView.as_view(), name='classes_detail_view'), 
+    path('teacher/<int:id>/', TeacherDetailView.as_view(), name='teacher_detail_view'), 
+    path('course/<int:id>/', CourseDetailView.as_view(), name='course_detail_view'), 
 ]

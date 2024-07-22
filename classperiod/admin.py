@@ -3,4 +3,4 @@ from .models import Classperiod
 
 
 admin.site.register(Classperiod)
-# Register your models here.
+# Register your models here
