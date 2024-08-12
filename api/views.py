@@ -76,6 +76,11 @@ class ClassperiodDetailView(APIView):
 class StudentListView(APIView):
     def get(self, request):
         students = Student.objects.all()
+        first_name = request .query-params.get("first_name")
+        if first_name:
+            students= students.filter(first_name= first_name)
+        if country:    
+             students= students.filter(country = country)
         serializer = StudentSerializer(students, many=True)
         return Response(serializer.data)
 
@@ -95,6 +100,22 @@ class StudentDetailView(APIView):
         students = Student.objects.get(id=id)
         serializer = StudentSerializer(students)
         return Response(serializer.data)
+
+
+    def enroll_student(self, student,course_Id):
+        course = Course.objects.get(id=course_id)
+        student.course.add(course)
+
+    def post(self ,request, id):
+        student.objects.get(id = id)
+        if action == "enroll":
+           course_id = request.data.get("course")
+           self.enroll_student(student,course_Id)
+        return Response(status.HTTP_201_ACCEPTED)   
+
+
+
+
 
 
     def put(self , request, id):
