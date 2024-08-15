@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib import admin
-from .views import StudentListView, ClassperiodListView, CourseListView, ClassesListView, TeacherListView, StudentDetailView, ClassperiodDetailView, ClassesDetailView, CourseDetailView,TeacherDetailView
+from .views import StudentListView, ClassperiodListView, CourseListView, ClassesListView, TeacherListView, StudentDetailView, ClassperiodDetailView, ClassesDetailView, CourseDetailView,TeacherDetailView,TeacherCourseAssignmentView,TeacherTimetableView
 
 urlpatterns = [
     path('admin/', admin.site.urls), 
@@ -14,4 +14,6 @@ urlpatterns = [
     path('classes/<int:id>/', ClassesDetailView.as_view(), name='classes_detail_view'), 
     path('teacher/<int:id>/', TeacherDetailView.as_view(), name='teacher_detail_view'), 
     path('course/<int:id>/', CourseDetailView.as_view(), name='course_detail_view'), 
+    path('teachers/<int:teacher_id>/courses/', TeacherCourseAssignmentView.as_view()),
+    path('teachers/<int:teacher_id>/timetable/', TeacherTimetableView.as_view()),
 ]

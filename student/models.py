@@ -15,6 +15,7 @@ class Student(models.Model):
     Student_class = models.CharField(max_length=20)
     course_taking = models.CharField(max_length=20)
     courses = models.ManyToManyField(Course)
+   
 
 
 
