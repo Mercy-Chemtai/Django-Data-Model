@@ -9,12 +9,12 @@ from classperiod.models import Classperiod
 from classes.models import Classes
 from teacher.models import Teacher
 
-from .serializers import StudentSerializer, CourseSerializer, ClassperiodSerializer, ClassesSerializer, TeacherSerializer
+from .serializers import MinimalClassperiodSerializer, MinimalStudentSerializer, StudentSerializer, CourseSerializer, ClassperiodSerializer, ClassesSerializer, TeacherSerializer
 
 class ClassperiodListView(APIView):
     def get(self, request):
         class_periods = Classperiod.objects.all()
-        serializer = ClassperiodSerializer(class_periods, many=True)
+        serializer = MinimalClassperiodSerializer(class_periods, many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -23,6 +23,8 @@ class ClassperiodListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class ClassperiodDetailView(APIView):
     def get(self, request, id):
@@ -43,13 +45,18 @@ class ClassperiodDetailView(APIView):
         class_period.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+
+
+
+
 class StudentListView(APIView):
     def get(self, request):
         students = Student.objects.all()
         first_name = request.query_params.get("first_name")
         if first_name:
             students = students.filter(first_name=first_name)
-        serializer = StudentSerializer(students, many=True)
+        serializer = MinimalStudentSerializer(students, many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -58,6 +65,9 @@ class StudentListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 class StudentDetailView(APIView):
     def get(self, request, id):
@@ -77,6 +87,8 @@ class StudentDetailView(APIView):
             return Response({'message': f'Student {student.id} added to class {class_id}'}, status=status.HTTP_200_OK)
         return Response({'error': 'class_id is required'}, status=status.HTTP_400_BAD_REQUEST)
 
+
+
 class CourseListView(APIView):
     def get(self, request):
         courses = Course.objects.all()
@@ -89,6 +101,8 @@ class CourseListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class CourseDetailView(APIView):
     def get(self, request, id):
@@ -109,6 +123,10 @@ class CourseDetailView(APIView):
         course.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+
+
+
 class ClassesListView(APIView):
     def get(self, request):
         classes = Classes.objects.all()
@@ -121,6 +139,8 @@ class ClassesListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class ClassesDetailView(APIView):
     def get(self, request, id):
@@ -141,6 +161,9 @@ class ClassesDetailView(APIView):
         classes.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+
+
 class TeacherListView(APIView):
     def get(self, request):
         teachers = Teacher.objects.all()
@@ -153,6 +176,8 @@ class TeacherListView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class TeacherDetailView(APIView):
     def get(self, request, id):
@@ -173,6 +198,10 @@ class TeacherDetailView(APIView):
         teacher.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
+
+
+
 class TeacherCourseAssignmentView(APIView):
     def post(self, request, teacher_id):
         teacher = get_object_or_404(Teacher, id=teacher_id)
@@ -184,6 +213,9 @@ class TeacherCourseAssignmentView(APIView):
             return Response({'message': f'Teacher {teacher_id} assigned to course {course_id}'}, status=status.HTTP_200_OK)
 
         return Response({'error': 'course_id is required'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
 class TeacherTimetableView(APIView):
     def get(self, request, teacher_id):
@@ -199,3 +231,8 @@ class TeacherTimetableView(APIView):
             })
 
         return Response({'teacher_id': teacher_id, 'timetable': classroom_data})
+
+
+
+
+

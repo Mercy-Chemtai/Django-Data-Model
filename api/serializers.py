@@ -34,4 +34,29 @@ class ClassesSerializer(serializers.ModelSerializer):
         fields = "_ _all_ _"
 
 
-        
+
+
+class MinimalStudentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Student
+        fields = ['first_name','email']
+
+class MinimalCourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = ['name', 'description']
+
+class MinimalClassperiodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Classperiod
+        fields = ['day', 'time', 'class_instance']
+
+class MinimalClassesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Classes
+        fields = ['name', 'description']
+
+class MinimalTeacherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Teacher
+        fields = ['first_name', 'last_name']
