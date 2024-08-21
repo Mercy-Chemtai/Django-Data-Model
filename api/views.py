@@ -44,6 +44,26 @@ class ClassperiodDetailView(APIView):
         class_period = get_object_or_404(Classperiod, id=id)
         class_period.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+    
+
+
+class CreateClassPeriodView(APIView):
+    def post(self, request):
+        course_id = request.data.get('course_id')
+        teacher_id = request.data.get('teacher_id')
+        day = request.data.get('day')
+        time = request.data.get('time')
+
+        if not course_id or not teacher_id or not day or not time:
+            return Response({'error': 'All fields (course_id, teacher_id, day, time) are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        course_instance = get_object_or_404(Course, id=course_id)
+        teacher_instance = get_object_or_404(Teacher, id=teacher_id)
+
+        class_period = Classperiod(course=course_instance, teacher=teacher_instance, day=day, time=time)
+        class_period.save()
+
+        return Response({'message': 'Class period created successfully', 'class_period_id': class_period.id}, status=status.HTTP_201_CREATED)
 
 
 
@@ -213,6 +233,23 @@ class TeacherCourseAssignmentView(APIView):
             return Response({'message': f'Teacher {teacher_id} assigned to course {course_id}'}, status=status.HTTP_200_OK)
 
         return Response({'error': 'course_id is required'}, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class AssignTeacherToClassView(APIView):
+    def post(self, request):
+        class_id = request.data.get('class_id')
+        teacher_id = request.data.get('teacher_id')
+
+        if not class_id or not teacher_id:
+            return Response({'error': 'Both class_id and teacher_id are required'}, status=status.HTTP_400_BAD_REQUEST)
+
+        class_instance = get_object_or_404(Classes, id=class_id)
+        teacher_instance = get_object_or_404(Teacher, id=teacher_id)
+
+        class_instance.teachers.add(teacher_instance)
+        class_instance.save()
+
+        return Response({'message': f'Teacher {teacher_id} assigned to class {class_id}'}, status=status.HTTP_200_OK)
 
 
 
