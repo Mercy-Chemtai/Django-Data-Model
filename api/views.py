@@ -2,14 +2,14 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
 from student.models import Student
 from course.models import Course
 from classperiod.models import Classperiod
 from classes.models import Classes
 from teacher.models import Teacher
 
-from .serializers import MinimalClassperiodSerializer, MinimalStudentSerializer, StudentSerializer, CourseSerializer, ClassperiodSerializer, ClassesSerializer, TeacherSerializer
+
+from .serializers import MinimalClassesSerializer, MinimalClassperiodSerializer, MinimalCourseSerializer, MinimalStudentSerializer, MinimalTeacherSerializer, StudentSerializer, CourseSerializer, ClassperiodSerializer, ClassesSerializer, TeacherSerializer
 
 class ClassperiodListView(APIView):
     def get(self, request):
@@ -70,8 +70,8 @@ class StudentListView(APIView):
 
 
 class StudentDetailView(APIView):
-    def get(self, request, id):
-        student = get_object_or_404(Student, id=id)
+    def get(self, request, pk):
+        student = Student.objects.get(pk=pk)
         serializer = StudentSerializer(student)
         return Response(serializer.data)
 
@@ -92,7 +92,7 @@ class StudentDetailView(APIView):
 class CourseListView(APIView):
     def get(self, request):
         courses = Course.objects.all()
-        serializer = CourseSerializer(courses, many=True)
+        serializer = MinimalCourseSerializer(courses, many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -130,7 +130,7 @@ class CourseDetailView(APIView):
 class ClassesListView(APIView):
     def get(self, request):
         classes = Classes.objects.all()
-        serializer = ClassesSerializer(classes, many=True)
+        serializer = MinimalClassesSerializer(classes, many=True)
         return Response(serializer.data)
 
     def post(self, request):
@@ -167,7 +167,7 @@ class ClassesDetailView(APIView):
 class TeacherListView(APIView):
     def get(self, request):
         teachers = Teacher.objects.all()
-        serializer = TeacherSerializer(teachers, many=True)
+        serializer = MinimalTeacherSerializer(teachers, many=True)
         return Response(serializer.data)
 
     def post(self, request):
